@@ -1,7 +1,7 @@
 ![App Screenshot](assets/Logo.png)
 
 
-![Static Badge](https://img.shields.io/badge/Ryfooo-DocCenter-%23d44bb7)
+![Static Badge](https://img.shields.io/badge/Ryfooo-DocCenter-%23d44bb7) ![Static Badge](https://img.shields.io/badge/npm-11.6.1-F01D07)
 
 [Home](#-doccenter) • [Overview](#-Overview) • [Tech-Stack](#-tech-stack) • [Setup](#-Setup) • [License](#-License)
 
