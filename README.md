@@ -33,4 +33,8 @@ DOCCENTER provides a simple and reliable space where verified doctors can:
 ![App Screenshot](assets/carbon.png)
 
 
+## Theme
+
+-Primary Color : #2f43c8
+-Secondary Color : #d44bb7
 ## 📄 License

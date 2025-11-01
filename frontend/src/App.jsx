@@ -1,34 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useState } from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import Publish from "./pages/Publish";
+import Login from "./pages/registration/Login";
+import Signup from "./pages/registration/Signup";
+import PasswordResetRequest from "./pages/registration/PasswordResetRequest";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState(null);
+  const location = useLocation();
+
+
+  const hideHeaderRoutes = ["/login", "/signup", "/PasswordReset"];
+
+  const shouldHideHeader = hideHeaderRoutes.includes(location.pathname);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 transition-colors duration-300">
+
+      {!shouldHideHeader && (user ? <protectedHeader /> : <Header />)}
+
+      <main className="flex-grow p-6">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          {!user && <Route path="/login" element={<Login setUser={setUser} />} />}
+          {!user && <Route path="/signup" element={<Signup />} />}
+          {!user && <Route path="/PasswordReset" element={<PasswordResetRequest />} />}
+
+          {user && <Route path="/profile" element={<Profile />} />}
+          {user && <Route path="/publish" element={<Publish />} />}
+          {user && <Route path="/settings" element={<Settings />} />}
+        </Routes>
+      </main>
+      {!shouldHideHeader && <Footer />}
+    </div>
+  );
 }
 
-export default App
+export default App;
