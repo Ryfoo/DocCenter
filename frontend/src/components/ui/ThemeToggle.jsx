@@ -26,7 +26,7 @@ export default function ThemeToggle() {
             />
 
             <svg
-                className="swap-on h-10 w-10 fill-gray-200"
+                className="swap-on h-7 w-7 fill-gray-200"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
             >
@@ -34,7 +34,7 @@ export default function ThemeToggle() {
             </svg>
 
             <svg
-                className="swap-off h-10 w-10 fill-gray-800"
+                className="swap-off h-7 w-7 fill-gray-800"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
             >

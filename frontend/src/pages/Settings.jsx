@@ -1,8 +1,46 @@
-function Settings() {
+import { Link } from "react-router-dom";
+
+function Settings({ user }) {
+    if (!user) {
+        return (
+            <div className="min-h-screen flex items-center justify-center text-gray-500 dark:text-gray-300">
+                Please log in to access your settings.
+            </div>
+        );
+    }
+
+    const settingsOptions = [
+        { label: "Privacy", to: "/settings/privacy" },
+        { label: "Account Information", to: "/settings/account" },
+        { label: "Activity", to: "/settings/activity" },
+        { label: "Analytics", to: "/settings/analytics" },
+        { label: "Change Email", to: "/settings/email" },
+        { label: "Change Password", to: "/settings/password" },
+    ];
+
     return (
-        <div className="max-w-lg mx-auto bg-white shadow p-6 rounded">
-            <h2 className="text-2xl font-semibold mb-4">Account Settings</h2>
-            <p>Change your password, delete your account, or manage notifications here.</p>
+        <div className="min-h-screen py-10 px-4 bg-gray-50 dark:bg-gray-900">
+            <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 transition-colors duration-300">
+                <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100">Settings</h1>
+
+                <div className="space-y-4">
+                    {settingsOptions.map((option) => (
+                        <div
+                            key={option.label}
+                            className="flex justify-between items-center p-4 rounded-lg bg-gray-200 dark:bg-gray-700 transition-colors"
+                        >
+                            <span className="text-gray-800 dark:text-gray-100">{option.label}:</span>
+                            <Link
+                                to={option.to}
+                                className="btn btn-xs text-white"
+                                style={{ backgroundColor: "#d44bb7" }}
+                            >
+                                Manage
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }
