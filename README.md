@@ -25,19 +25,19 @@ DOCCENTER provides a simple and reliable space where verified doctors can:
 ![Home Page](assets/showcase/home.png)
 
 ## **Light Theme**
-![Post Detail](assets/showcase/lightTheme.png)
+![Light Theme](assets/showcase/lightTheme.png)
 
 ## **Notifications Center**
-![Create Post](assets/showcase/notifications.png)
+![Notifications Center](assets/showcase/notifications.png)
 
 ## **Login**
 ![Login Page](assets/showcase/login.png)
 
 ## **Register**
-![Admin](assets/showcase/signup.png)
+![Register Page](assets/showcase/signup.png)
 
 ## **settings**
-![Admin](assets/showcase/settings.png)
+![Settings & Control Center](assets/showcase/settings.png)
 
 ---
 
