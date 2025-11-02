@@ -19,6 +19,27 @@ DOCCENTER provides a simple and reliable space where verified doctors can:
 - Interact through comments, ratings, and peer feedback.
 
 ---
+# **Showcasing the platform**
+
+## **Home Page**
+![Home Page](assets/showcase/home.png)
+
+## **Light Theme**
+![Post Detail](assets/showcase/lightTheme.png)
+
+## **Notifications Center**
+![Create Post](assets/showcase/notifications.png)
+
+## **Login**
+![Login Page](assets/showcase/login.png)
+
+## **Register**
+![Admin](assets/showcase/signup.png)
+
+## **settings**
+![Admin](assets/showcase/settings.png)
+
+---
 
 ## 🧱 Tech Stack
 - **Backend:** Django 4.2 (REST Framework)
@@ -30,34 +51,34 @@ DOCCENTER provides a simple and reliable space where verified doctors can:
 
 ## ⚙️ Setup (Development)
 - **1. Clone the Repository**
-![App Screenshot](assets/clone.png)
+![App Screenshot](assets/instructions/clone.png)
 - **2. Backend Setup (Django + DRF)**
 - Step 2.1: Create and activate a virtual environment
-![App Screenshot](assets/virtualEnv.png)
+![App Screenshot](assets/instructions/virtualEnv.png)
 - Step 2.2: Install backend dependencies
-![App Screenshot](assets/requirements.png)
+![App Screenshot](assets/instructions/requirements.png)
 - Step 2.3: Apply migrations
-![App Screenshot](assets/migrations.png)
+![App Screenshot](assets/instructions/migrations.png)
 - Step 2.4: Create superuser (optional)
-![App Screenshot](assets/admin1.png)
+![App Screenshot](assets/instructions/admin1.png)
 - Access admin panel at **http://localhost:8000/admin/**
 - Step 2.5: Run the backend server
-![App Screenshot](assets/run.png)
+![App Screenshot](assets/instructions/run.png)
 - Access the app at **http://localhost:8000/**
 - **3. Frontend Setup (React + Tailwind 3.1.14 + daisyUI)**
 - Step 3.1: Navigate to frontend
-![App Screenshot](assets/frontend.png)
+![App Screenshot](assets/instructions/frontend.png)
 - Step 3.2: Install dependencies
-![App Screenshot](assets/npm.png)
+![App Screenshot](assets/instructions/npm.png)
 - Step 3.3: Run the frontend
-![App Screenshot](assets/startfront.png)
+![App Screenshot](assets/instructions/startfront.png)
 - **4. Configuration Notes**
 - Backend
 Ensure CORS is configured in backend/settings.py:
-![App Screenshot](assets/cors.png)
+![App Screenshot](assets/instructions/cors.png)
 - Frontend
 API base URL is set in frontend/src/api.js:
-![App Screenshot](assets/api.png)
+![App Screenshot](assets/instructions/api.png)
 Update if your backend runs on a different host or port.
 
 **5. Development Tips**
