@@ -123,7 +123,7 @@ Tailwind + daisyUI works out-of-the-box using tailwind.config.js.
 
 ## Theme
 
--Primary Color : #2f43c8
--Secondary Color : #d44bb7
+- Primary Color : #2f43c8
+- Secondary Color : #d44bb7
 
 ## 📄 License
