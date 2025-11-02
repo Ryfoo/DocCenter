@@ -6,25 +6,25 @@ Making the goals public allows instructors to easily monitor progress. Dr. Sami 
 **Project Interface Status:**
 The interface is almost ready to be shipped, including the following fully implemented features:
 
--Login / Signup
--Home
--Settings
--Notifications
--About Us
--Contact
--Light / Dark Theme
+- Login / Signup
+- Home
+- Settings
+- Notifications
+- About Us
+- Contact
+- Light / Dark Theme
 
 **Upcoming Tasks:**
--The following functionalities still need to be implemented soon:
--Search Bar functionality
--Profile and saved posts
--Password change and general settings functionality
+- The following functionalities still need to be implemented soon:
+- Search Bar functionality
+- Profile and saved posts
+- Password change and general settings functionality
 
 **Pending / Untouched Areas:**
--The following components are yet to be developed:
--Backend
--API
--Models & Database
+- The following components are yet to be developed:
+- Backend
+- API
+- Models & Database
 
 
 **Important Notes (Please Read!)**
