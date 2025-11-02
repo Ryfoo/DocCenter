@@ -1,3 +1,35 @@
+## GOALS (This section is temporary and may be removed.)
+
+
+Making the goals public allows instructors to easily monitor progress. Dr. Sami Abdelatif and Dr. Mahmoudi have full access to this section and are authorized to review it, providing guidance, recommendations, and instructions based on their expertise and professional judgment.
+
+**Project Interface Status:**
+The interface is almost ready to be shipped, including the following fully implemented features:
+
+Login / Signup
+Home
+Settings
+Notifications
+About Us
+Contact
+Light / Dark Theme
+
+**Upcoming Tasks:**
+The following functionalities still need to be implemented soon:
+Search Bar functionality
+Profile and saved posts
+Password change and general settings functionality
+
+**Pending / Untouched Areas:**
+The following components are yet to be developed:
+Backend
+API
+Models & Database
+
+
+**Important Notes (Please Read!)**
+All of the texts have been handwritten; AI and LLMs were only fairly & lightly utilized during the development phase mostly to search and navigate documentations and frameworks tags/methods.
+
 ![App Screenshot](assets/banner.png)
 
 
@@ -93,4 +125,5 @@ Tailwind + daisyUI works out-of-the-box using tailwind.config.js.
 
 -Primary Color : #2f43c8
 -Secondary Color : #d44bb7
+
 ## 📄 License
