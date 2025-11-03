@@ -19,13 +19,15 @@ The interface is almost ready to be shipped, including the following fully imple
 - Light / Dark Theme
 
 **Upcoming Tasks:**
-- The following functionalities still need to be implemented soon:
+The following functionalities still need to be implemented soon:
+
 - Search Bar functionality
 - Profile and saved posts
 - Password change and general settings functionality
 
 **Pending / Untouched Areas:**
-- The following components are yet to be developed:
+The following apps are yet to be developed:
+
 - Backend
 - API
 - Models & Database
@@ -41,13 +43,13 @@ All of the texts have been handwritten; AI and LLMs were only fairly & lightly u
 
 [Home](#-doccenter) • [Overview](#-Overview) • [Tech-Stack](#-tech-stack) • [Setup](#-Setup) • [License](#-License)
 
-# 🩺 DOCCENTER
+# DOCCENTER
 
 **DOCCENTER** is a publishing platform designed exclusively for doctors and medical researchers to share their latest work.
 
 ---
 
-## 🚀 Overview
+## Overview
 DOCCENTER provides a simple and reliable space where verified doctors can:
 - Publish medical articles and research papers.  
 - Build their professional profiles and share expertise.
@@ -77,7 +79,7 @@ DOCCENTER provides a simple and reliable space where verified doctors can:
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 - **Backend:** Django 4.2 (REST Framework)
 - **Frontend:** React + TailwindCSS
 - **Database:** PostgreSQL
@@ -85,7 +87,7 @@ DOCCENTER provides a simple and reliable space where verified doctors can:
 
 ---
 
-## ⚙️ Setup (Development)
+## Setup (Development)
 - **1. Clone the Repository**
 ![App Screenshot](assets/instructions/clone.png)
 - **2. Backend Setup (Django + DRF)**
@@ -131,3 +133,10 @@ Tailwind + daisyUI works out-of-the-box using tailwind.config.js.
 - Secondary Color : #d44bb7
 
 ## 📄 License
+
+This project is licensed under the Business Source License (BSL) 1.1.
+
+You may view and contribute to the code for educational and development purposes.  
+Production or commercial use requires explicit permission from the licensor.
+
+See [LICENSE](./LICENSE) for details.
