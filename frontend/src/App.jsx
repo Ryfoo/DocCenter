@@ -31,7 +31,7 @@ function App() {
 
       <main className="flex-grow p-6">
         <Routes>
-          <Route path="/" element={<Home posts={posts} user={testUser} />} />
+          <Route path="/" element={<Home posts={posts} User={testUser} />} />
           <Route path="/post/:id" element={<PostDetails posts={posts} user={testUser} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -39,7 +39,7 @@ function App() {
 
           <Route path="/profile" element={<Profile user={testUser} />} />
           <Route path="/notifications" element={<NotificationsPage user={testUser} />} />
-          <Route path="/settings" element={<Settings user={testUser} />} />
+          <Route path="/settings" element={<Settings User={testUser} />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<ContactPage />} />
         </Routes>

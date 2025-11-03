@@ -1,8 +1,33 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import PostCard from "../components/ui/PostCard";
 
-function Home({ user, posts }) {
+// Define the shape of a post
+interface Author {
+    username: string;
+}
+
+interface Post {
+    id: number;
+    title: string;
+    author: Author;
+    banner: string;
+    excerpt: string;
+    avatar: string;
+}
+
+// Define user type
+interface User {
+    username: string;
+    avatar: string;
+}
+
+// Props for the Home component
+interface HomeProps {
+    User: User | null;
+    posts: Post[];
+}
+
+const Home: React.FC<HomeProps> = ({ User, posts }) => {
     const navigate = useNavigate();
 
     return (
@@ -15,13 +40,13 @@ function Home({ user, posts }) {
                     banner={post.banner}
                     excerpt={post.excerpt}
                     avatar={post.avatar}
-                    user={user}
-                    isOwner={user?.username === post.author}
+                    user={User}
+                    isOwner={User?.username === post.author.username}
                     onReadMore={() => navigate(`/post/${post.id}`)}
                 />
             ))}
         </div>
     );
-}
+};
 
 export default Home;
