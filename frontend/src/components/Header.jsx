@@ -8,7 +8,6 @@ function Header({ user, searchQuery, setSearchQuery }) {
     const [searchOpen, setSearchOpen] = useState(false);
     const [notifOpen, setNotifOpen] = useState(false);
 
-    // Demo notifications list
     const notificationsList = [
         { id: 1, message: "New comment on your post", time: "5 minutes ago" },
         { id: 2, message: "Your password was changed successfully", time: "1 hour ago" },
@@ -30,7 +29,6 @@ function Header({ user, searchQuery, setSearchQuery }) {
     ];
 
     const handleCloseNotif = () => setNotifOpen(false);
-
     return (
         <div className="navbar bg-base-100 shadow-sm dark:bg-gray-900 px-4 relative">
 

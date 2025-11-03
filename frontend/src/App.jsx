@@ -11,7 +11,8 @@ import Signup from "./pages/registration/Signup";
 import PasswordResetRequest from "./pages/registration/PasswordResetRequest";
 import ContactPage from "./pages/Contact";
 import NotificationsPage from "./pages/Dashboard/Notifications";
-
+import posts from "./data/posts"
+import PostDetails from "./pages/PostDetails"
 function App() {
   const [user, setUser] = useState(null);
   const location = useLocation();
@@ -20,27 +21,27 @@ function App() {
   const shouldHideHeader = hideHeaderRoutes.includes(location.pathname);
 
   const testUser = {
-    name: "John Doe",
-    avatarUrl: "/assets/default-avatar.png",
+    username: "Alaeddine Gadi",
+    avatar: "/assets/default-avatar.png",
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 transition-colors duration-300">
-      {!shouldHideHeader && <Header user={user || testUser} />}
+    <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 transition-colors duration-300 overflow:none">
+      {!shouldHideHeader && <Header user={testUser} />}
 
       <main className="flex-grow p-6">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<ContactPage />} />
-
-          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/" element={<Home posts={posts} user={testUser} />} />
+          <Route path="/post/:id" element={<PostDetails posts={posts} user={testUser} />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/PasswordReset" element={<PasswordResetRequest />} />
 
-          <Route path="/profile" element={<Profile user={user} />} />
-          <Route path="/notifications" element={<NotificationsPage user={user || testUser} />} />
-          <Route path="/settings" element={<Settings user={user || testUser} />} />
+          <Route path="/profile" element={<Profile user={testUser} />} />
+          <Route path="/notifications" element={<NotificationsPage user={testUser} />} />
+          <Route path="/settings" element={<Settings user={testUser} />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
       </main>
 

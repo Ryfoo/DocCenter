@@ -17,7 +17,7 @@ function AboutCard() {
                     </h2>
                     <p className="text-gray-600 dark:text-gray-300">
                         I am a passionate developer with a deep interest in **mathematics**, particularly in
-                        **analysis** and **topology**, which fuel my love for problem-solving and logical thinking.
+                        analysis, topology, number theory and graph theory, which fuel my love for problem-solving and logical thinking.
                         Alongside, I enjoy exploring **low-level programming**, understanding how computers work at
                         the hardware level, and building efficient solutions from the ground up.
                     </p>
