@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import PostCard from "../components/ui/PostCard";
 
-// Define the shape of a post
+
 interface Author {
     username: string;
 }
@@ -15,13 +15,12 @@ interface Post {
     avatar: string;
 }
 
-// Define user type
+
 interface User {
     username: string;
     avatar: string;
 }
 
-// Props for the Home component
 interface HomeProps {
     User: User | null;
     posts: Post[];
