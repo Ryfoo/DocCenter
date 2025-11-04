@@ -40,7 +40,7 @@ const Dashboard: React.FC<DashboardProps> = ({ User }) => {
         }
     }, [darkMode]);
 
-    // If user not logged in
+    // --- Guest view ---
     if (!User) {
         return (
             <div className="flex flex-col items-center justify-center h-screen bg-base-200 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300">
@@ -49,7 +49,7 @@ const Dashboard: React.FC<DashboardProps> = ({ User }) => {
                     Please log in to view your dashboard.
                 </p>
                 <button
-                    className="px-6 py-2 rounded-md text-white transition-all duration-200 hover:opacity-90"
+                    className="px-6 py-2 rounded-md text-white font-semibold shadow-none border-none hover:opacity-90 transition-all duration-200"
                     style={{ backgroundColor: "#2f43c8" }}
                 >
                     Go to Login
@@ -58,6 +58,7 @@ const Dashboard: React.FC<DashboardProps> = ({ User }) => {
         );
     }
 
+    // --- Data ---
     const interactionData = [
         { month: "Jan", interactions: 120 },
         { month: "Feb", interactions: 190 },
@@ -73,12 +74,12 @@ const Dashboard: React.FC<DashboardProps> = ({ User }) => {
         { name: "Followers", reach: 320 },
     ];
 
+    // --- UI ---
     return (
-        <div className="min-h-screen bg-base-200 dark:bg-[#0f1017] text-gray-900 dark:text-gray-100 transition-all duration-300 rounded-md">
-            {/* Content */}
+        <div className="min-h-screen bg-gray-50 dark:bg-[#0f1017] text-gray-900 dark:text-gray-100 transition-all duration-300 rounded-md">
             <div className="max-w-6xl mx-auto px-6 py-10">
                 {/* Profile Section */}
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 bg-transparent mb-8">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8">
                     <div className="avatar">
                         <div className="w-24 rounded-full ring ring-[#2f43c8] ring-offset-base-100 ring-offset-2">
                             <img
@@ -89,9 +90,7 @@ const Dashboard: React.FC<DashboardProps> = ({ User }) => {
                     </div>
 
                     <div className="flex-1 text-center sm:text-left">
-                        <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-                            {User.username}
-                        </h2>
+                        <h2 className="text-3xl font-bold">{User.username}</h2>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
                             {User.role || "Member"}
                         </p>
@@ -101,29 +100,45 @@ const Dashboard: React.FC<DashboardProps> = ({ User }) => {
 
                 {/* Stats */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-                    <div className="bg-[#1a1b27] dark:bg-[#181a24] rounded-2xl p-6 text-center">
-                        <p className="text-gray-400">Articles Published</p>
-                        <h3 className="text-2xl font-bold text-[#2f43c8] mt-1">12</h3>
-                        <p className="text-sm text-gray-500 mt-1">↗︎ 4 new this month</p>
-                    </div>
-
-                    <div className="bg-[#1a1b27] dark:bg-[#181a24] rounded-2xl p-6 text-center">
-                        <p className="text-gray-400">Interactions</p>
-                        <h3 className="text-2xl font-bold text-[#d44bb7] mt-1">648</h3>
-                        <p className="text-sm text-gray-500 mt-1">↗︎ 8% from last week</p>
-                    </div>
-
-                    <div className="bg-[#1a1b27] dark:bg-[#181a24] rounded-2xl p-6 text-center">
-                        <p className="text-gray-400">Account Reach</p>
-                        <h3 className="text-2xl font-bold text-[#2f43c8] mt-1">2.4K</h3>
-                        <p className="text-sm text-gray-500 mt-1">↘︎ 3% this month</p>
-                    </div>
+                    {[
+                        {
+                            label: "Articles Published",
+                            value: "12",
+                            trend: "↗︎ 4 new this month",
+                            color: "#2f43c8",
+                        },
+                        {
+                            label: "Interactions",
+                            value: "648",
+                            trend: "↗︎ 8% from last week",
+                            color: "#d44bb7",
+                        },
+                        {
+                            label: "Account Reach",
+                            value: "2.4K",
+                            trend: "↘︎ 3% this month",
+                            color: "#2f43c8",
+                        },
+                    ].map((stat) => (
+                        <div
+                            key={stat.label}
+                            className="rounded-2xl p-6 text-center bg-white dark:bg-[#181a24] transition-colors"
+                        >
+                            <p className="text-gray-500 dark:text-gray-400">{stat.label}</p>
+                            <h3 className="text-2xl font-bold mt-1" style={{ color: stat.color }}>
+                                {stat.value}
+                            </h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                {stat.trend}
+                            </p>
+                        </div>
+                    ))}
                 </div>
 
                 {/* Charts */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Interaction Trends */}
-                    <div className="rounded-2xl bg-[#1a1b27] dark:bg-[#181a24] p-6">
+                    <div className="rounded-2xl bg-white dark:bg-[#181a24] p-6 transition-colors">
                         <h3 className="text-lg font-semibold mb-4">Interaction Trends</h3>
                         <ResponsiveContainer width="100%" height={250}>
                             <LineChart data={interactionData}>
@@ -133,14 +148,17 @@ const Dashboard: React.FC<DashboardProps> = ({ User }) => {
                                     stroke="#2f43c8"
                                     strokeWidth={2}
                                 />
-                                <CartesianGrid strokeDasharray="3 3" stroke="#2a2d3a" />
+                                <CartesianGrid
+                                    strokeDasharray="3 3"
+                                    stroke={darkMode ? "#2a2d3a" : "#e5e7eb"}
+                                />
                                 <XAxis dataKey="month" stroke="#9ca3af" />
                                 <YAxis stroke="#9ca3af" />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: "#1f2233",
+                                        backgroundColor: darkMode ? "#1f2233" : "#ffffff",
                                         border: "none",
-                                        color: "#fff",
+                                        color: darkMode ? "#fff" : "#000",
                                     }}
                                 />
                             </LineChart>
@@ -148,18 +166,21 @@ const Dashboard: React.FC<DashboardProps> = ({ User }) => {
                     </div>
 
                     {/* Reach Overview */}
-                    <div className="rounded-2xl bg-[#1a1b27] dark:bg-[#181a24] p-6">
+                    <div className="rounded-2xl bg-white dark:bg-[#181a24] p-6 transition-colors">
                         <h3 className="text-lg font-semibold mb-4">Reach Overview</h3>
                         <ResponsiveContainer width="100%" height={250}>
                             <BarChart data={reachData}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#2a2d3a" />
+                                <CartesianGrid
+                                    strokeDasharray="3 3"
+                                    stroke={darkMode ? "#2a2d3a" : "#e5e7eb"}
+                                />
                                 <XAxis dataKey="name" stroke="#9ca3af" />
                                 <YAxis stroke="#9ca3af" />
                                 <Tooltip
                                     contentStyle={{
-                                        backgroundColor: "#1f2233",
+                                        backgroundColor: darkMode ? "#1f2233" : "#ffffff",
                                         border: "none",
-                                        color: "#fff",
+                                        color: darkMode ? "#fff" : "#000",
                                     }}
                                 />
                                 <Bar dataKey="reach" fill="#d44bb7" radius={[6, 6, 0, 0]} />
@@ -168,16 +189,16 @@ const Dashboard: React.FC<DashboardProps> = ({ User }) => {
                     </div>
                 </div>
 
-                {/* Action Buttons */}
+                {/* Actions */}
                 <div className="flex justify-end gap-3 mt-10">
                     <button
-                        className="px-5 py-2 rounded-md text-white transition-all duration-200 hover:opacity-90"
+                        className="px-5 py-2 rounded-md text-white font-semibold shadow-none border-none hover:opacity-90 transition-all duration-200"
                         style={{ backgroundColor: "#2f43c8" }}
                     >
                         Edit Profile
                     </button>
                     <button
-                        className="px-5 py-2 rounded-md text-white transition-all duration-200 hover:opacity-90"
+                        className="px-5 py-2 rounded-md text-white font-semibold shadow-none border-none hover:opacity-90 transition-all duration-200"
                         style={{ backgroundColor: "#d44bb7" }}
                     >
                         View Publications

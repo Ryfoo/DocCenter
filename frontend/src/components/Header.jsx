@@ -123,7 +123,7 @@ function Header({ user, searchQuery, setSearchQuery }) {
                                         <div className="mt-2 flex justify-between">
                                             <Link
                                                 to="/notifications"
-                                                className="btn btn-xs text-white"
+                                                className="btn btn-xs text-white border-none shadow-none"
                                                 style={{ backgroundColor: "#2f43c8" }}
                                                 onClick={handleCloseNotif}
                                             >
@@ -131,7 +131,7 @@ function Header({ user, searchQuery, setSearchQuery }) {
                                             </Link>
                                             <Link
                                                 to="/settings"
-                                                className="btn btn-xs text-white"
+                                                className="btn btn-xs text-white border-none shadow-none"
                                                 style={{ backgroundColor: "#d44bb7" }}
                                                 onClick={handleCloseNotif}
                                             >
