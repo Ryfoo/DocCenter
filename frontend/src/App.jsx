@@ -4,15 +4,15 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Profile from "./pages/Dashboard/Profile";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import Settings from "./pages/Settings";
 import Login from "./pages/registration/Login";
 import Signup from "./pages/registration/Signup";
 import PasswordResetRequest from "./pages/registration/PasswordResetRequest";
 import ContactPage from "./pages/Contact";
 import NotificationsPage from "./pages/Dashboard/Notifications";
-import posts from "./data/posts"
-import PostDetails from "./pages/PostDetails"
+import posts from "./data/posts";
+import PostDetails from "./pages/PostDetails";
 function App() {
   const [user, setUser] = useState(null);
   const location = useLocation();
@@ -37,7 +37,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/PasswordReset" element={<PasswordResetRequest />} />
 
-          <Route path="/profile" element={<Profile user={testUser} />} />
+          <Route path="/dashboard" element={<Dashboard User={testUser} />} />
           <Route path="/notifications" element={<NotificationsPage user={testUser} />} />
           <Route path="/settings" element={<Settings User={testUser} />} />
           <Route path="/about" element={<About />} />

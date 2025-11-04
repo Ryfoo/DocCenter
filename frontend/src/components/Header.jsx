@@ -16,7 +16,7 @@ function Header({ user, searchQuery, setSearchQuery }) {
     ];
 
     const menuItems = [
-        { id: 1, label: "Profile", to: "/profile" },
+        { id: 1, label: "Dashboard", to: "/dashboard" },
         { id: 2, label: "Notifications", to: "/notifications" },
         { id: 3, label: "Settings", to: "/settings" },
         { id: 4, label: "Saved Posts", to: "/saved" },

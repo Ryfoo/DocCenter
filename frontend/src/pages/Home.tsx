@@ -15,7 +15,6 @@ interface Post {
     avatar: string;
 }
 
-
 interface User {
     username: string;
     avatar: string;
