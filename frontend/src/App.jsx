@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import Settings from "./pages/Settings";
+import Settings from "./pages/settings/Settings";
 import Login from "./pages/registration/Login";
 import Signup from "./pages/registration/Signup";
 import PasswordResetRequest from "./pages/registration/PasswordResetRequest";
@@ -13,12 +13,17 @@ import ContactPage from "./pages/Contact";
 import NotificationsPage from "./pages/Dashboard/Notifications";
 import posts from "./data/posts";
 import PostDetails from "./pages/PostDetails";
+import Privacy from "./pages/settings/Privacy";
+import NavBar from "./components/NavBar";
+
+
+
 function App() {
   const [user, setUser] = useState(null);
   const location = useLocation();
 
-  const hideHeaderRoutes = ["/login", "/signup", "/PasswordReset"];
-  const shouldHideHeader = hideHeaderRoutes.includes(location.pathname);
+  const hiddenRoutes = ["/login", "/signup", "/PasswordReset"];
+  const hidden = hiddenRoutes.includes(location.pathname);
 
   const testUser = {
     username: "Alaeddine Gadi",
@@ -27,7 +32,7 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 transition-colors duration-300 overflow:none">
-      {!shouldHideHeader && <Header user={testUser} />}
+      {!hidden && <Header user={testUser} />}
 
       <main className="flex-grow p-6">
         <Routes>
@@ -42,10 +47,12 @@ function App() {
           <Route path="/settings" element={<Settings User={testUser} />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/settings/privacy" element={<Privacy />} />
         </Routes>
       </main>
+      {!hidden && <NavBar />}
 
-      {!shouldHideHeader && <Footer />}
+      {!hidden && <Footer />}
     </div>
   );
 }

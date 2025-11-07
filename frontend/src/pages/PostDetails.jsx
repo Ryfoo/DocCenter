@@ -127,7 +127,7 @@ function PostDetail({ user }) {
                 </h3>
 
                 {/* Comment Input */}
-                <div className="flex gap-3 mb-6 items-start">
+                <div className="flex gap-3 mb-6 items-start block sm:hidden">
                     {user ? (
                         <div className="avatar">
                             <div className="w-12 rounded-full">
@@ -153,12 +153,43 @@ function PostDetail({ user }) {
                     <button
                         onClick={handleCommentSubmit}
                         disabled={!user}
-                        className="btn btn-primary px-6 bg-[#d44bb7] text-white hover:bg-[#b83d9c] disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="btn btn-primary w-24 bg-[#d44bb7] text-white hover:bg-[#b83d9c] disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         Comment
                     </button>
                 </div>
-
+                {/*comment input for small screens */}
+                <div className="hidden sm:block flex gap-3 mb-6 items-start ">
+                    {user ? (
+                        <div className="avatar">
+                            <div className="w-12 rounded-full">
+                                <img src={user.avatar} alt={user.username} />
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="avatar placeholder">
+                            <div className="w-12 bg-neutral-focus text-neutral-content rounded-full">
+                                <span>?</span>
+                            </div>
+                        </div>
+                    )}
+                    <textarea
+                        placeholder={
+                            user ? "Write your comment..." : "Login to write a comment..."
+                        }
+                        className="textarea textarea-bordered w-full dark:bg-gray-800 dark:text-gray-200 resize-none"
+                        value={commentText}
+                        onChange={(e) => setCommentText(e.target.value)}
+                        disabled={!user}
+                    ></textarea>
+                    <button
+                        onClick={handleCommentSubmit}
+                        disabled={!user}
+                        className="btn btn-primary w-24 bg-[#d44bb7] text-white hover:bg-[#b83d9c] disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Comment
+                    </button>
+                </div>
                 {/* Comment List */}
                 {comments.length === 0 ? (
                     <p className="text-gray-500 dark:text-gray-400">

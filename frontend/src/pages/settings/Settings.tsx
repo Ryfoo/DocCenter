@@ -26,7 +26,6 @@ const Settings: React.FC<SettingsProps> = ({ User }) => {
         { label: "Privacy", to: "/settings/privacy" },
         { label: "Account Information", to: "/settings/account" },
         { label: "Activity", to: "/settings/activity" },
-        { label: "Analytics", to: "/settings/analytics" },
         { label: "Change Email", to: "/settings/email" },
         { label: "Change Password", to: "/settings/password" },
     ];
