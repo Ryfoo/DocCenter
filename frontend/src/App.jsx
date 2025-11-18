@@ -20,11 +20,12 @@ import Account from "./pages/settings/Account";
 import ChangeEmail from "./pages/settings/ChangeEmail";
 import ChangePassword from "./pages/settings/ChangePassword";
 import NavBar from "./components/NavBar";
-import Profile from "./pages/Dashboard/Profile"
-import CreatePost from "./pages/Dashboard/CreatePost"
-import EditPost from "./pages/Dashboard/EditPost"
-import SavedPosts from "./pages/Dashboard/SavedPosts"
-import MyPosts from "./pages/Dashboard/MyPosts"
+import Profile from "./pages/Dashboard/Profile";
+import CreatePost from "./pages/Dashboard/CreatePost";
+import EditPost from "./pages/Dashboard/EditPost";
+import SavedPosts from "./pages/Dashboard/SavedPosts";
+import MyPosts from "./pages/Dashboard/MyPosts";
+import Avatar from "../public/assets/profile1.jpg"
 function App() {
   const location = useLocation();
 
@@ -35,7 +36,7 @@ function App() {
     id: Date.now(),
     username: "TestUser",
     email: "testuser2025@test.com",
-    avatar: "https://i.pravatar.cc/150?img=3",
+    avatar: "../public/assets/profile1.jpg",
     bio: "I am a Doctor with 20 years of experience, sharing my expertise with interested people",
     savedPosts: [],
     createdPosts: [],
