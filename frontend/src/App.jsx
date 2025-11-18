@@ -36,6 +36,7 @@ function App() {
     username: "TestUser",
     email: "testuser2025@test.com",
     avatar: "https://i.pravatar.cc/150?img=3",
+    bio: "I am a Doctor with 20 years of experience, sharing my expertise with interested people",
     savedPosts: [],
     createdPosts: [],
     coAuthoredPosts: [],
@@ -57,7 +58,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<ContactPage />} />
           {/* Dynamic user profiles */}
-          <Route path="/profile/:username" element={<Profile User={user} AuthState={isLoggedIn} />} />
+          <Route path="/profile/" element={<Profile user={user} AuthState={isLoggedIn} />} />
           {/* Auth pages */}
           <Route path="/login" element={<Login setUser={setUser} setAuthState={setIsLoggedIn} />} />
           <Route path="/logout" element={<Logout setUser={setUser} setAuthState={setIsLoggedIn} />} />
@@ -77,7 +78,7 @@ function App() {
             path="/create"
             element={
               <ProtectedRoute AuthState={isLoggedIn}>
-                <CreatePost user={user} AuthState={isLoggedIn} />
+                <CreatePost user={user} AuthState={isLoggedIn} setUser={setUser} />
               </ProtectedRoute>
             }
           />
@@ -122,10 +123,10 @@ function App() {
               </ProtectedRoute>
             }
           >
-            <Route path="privacy" element={<Privacy />} />
-            <Route path="account" element={<Account />} />
-            <Route path="email" element={<ChangeEmail />} />
-            <Route path="password" element={<ChangePassword />} />
+            <Route path="privacy" element={<Privacy User={user} AuthState={isLoggedIn} />} />
+            <Route path="account" element={<Account User={user} AuthState={isLoggedIn} />} />
+            <Route path="email" element={<ChangeEmail User={user} AuthState={isLoggedIn} />} />
+            <Route path="password" element={<ChangePassword User={user} AuthState={isLoggedIn} />} />
           </Route>
         </Routes>
       </main>

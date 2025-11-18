@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import posts from "../../data/posts";
 
-function CreatePost({ user, AuthState }) {
+function CreatePost({ user, AuthState, setUser }) {
     const navigate = useNavigate();
 
     const [title, setTitle] = useState("");

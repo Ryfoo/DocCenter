@@ -16,7 +16,7 @@ function Header({ user, searchQuery, setSearchQuery, AuthState }) {
     ];
 
     const menuItems = [
-        { id: 1, label: "profile", to: "/profile" },
+        { id: 1, label: "profile", to: "/profile/" },
         { id: 2, label: "Dashboard", to: "/Dashboard" },
         { id: 3, label: "Notifications", to: "/notifications" },
         { id: 4, label: "Settings", to: "/settings" },
@@ -32,7 +32,7 @@ function Header({ user, searchQuery, setSearchQuery, AuthState }) {
     const handleCloseNotif = () => setNotifOpen(false);
     return (
         <>
-            <div className="navbar bg-base-100 shadow-sm dark:bg-gray-900 px-4 relative">
+            <div className="navbar bg-base-100 shadow-sm dark:bg-gray-900 px-4 fixed z-50">
 
                 {/* Left: ThemeToggle + Search */}
                 <div className="flex items-center space-x-2 absolute left-4">

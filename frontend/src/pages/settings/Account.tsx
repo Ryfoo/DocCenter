@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 export default function Account() {
-    const [username, setUsername] = useState("Alaeddine Gadi");
-    const [bio, setBio] = useState("AI & Computer Science enthusiast, football and MMA lover.");
+    const [username, setUsername] = useState("test user");
+    const [bio, setBio] = useState("test bio");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

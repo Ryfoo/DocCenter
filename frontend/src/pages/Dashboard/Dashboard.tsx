@@ -82,7 +82,7 @@ const Dashboard: React.FC<DashboardProps> = ({ User, AuthState }) => {
         <div className="min-h-screen bg-gray-50 dark:bg-[#0f1017] text-gray-900 dark:text-gray-100 transition-all duration-300 rounded-md">
             <div className="max-w-6xl mx-auto px-6 py-10">
                 {/* Profile Section */}
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8 py-20">
                     <div className="avatar">
                         <div className="w-24 rounded-full ring ring-[#2f43c8] ring-offset-base-100 ring-offset-2">
                             <img
@@ -195,6 +195,7 @@ const Dashboard: React.FC<DashboardProps> = ({ User, AuthState }) => {
                 {/* Actions */}
                 <div className="flex justify-end gap-3 mt-10">
                     <button
+                        onClick={() => navigate("/settings/account")}
                         className="px-5 py-2 rounded-md text-white font-semibold shadow-none border-none hover:opacity-90 transition-all duration-200"
                         style={{ backgroundColor: "#2f43c8" }}
                     >
