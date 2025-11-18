@@ -4,7 +4,7 @@ import SearchBar from "./ui/SearchBar";
 import RegisterButtons from "./ui/RegisterButtons";
 import { useState } from "react";
 
-function Header({ user, searchQuery, setSearchQuery }) {
+function Header({ user, searchQuery, setSearchQuery, AuthState }) {
     const [searchOpen, setSearchOpen] = useState(false);
     const [notifOpen, setNotifOpen] = useState(false);
 
@@ -17,10 +17,11 @@ function Header({ user, searchQuery, setSearchQuery }) {
 
     const menuItems = [
         { id: 1, label: "profile", to: "/profile" },
-        { id: 2, label: "Notifications", to: "/notifications" },
-        { id: 3, label: "Settings", to: "/settings" },
-        { id: 4, label: "Saved Posts", to: "/saved" },
-        { id: 5, label: "Logout", to: "/logout" },
+        { id: 2, label: "Dashboard", to: "/Dashboard" },
+        { id: 3, label: "Notifications", to: "/notifications" },
+        { id: 4, label: "Settings", to: "/settings" },
+        { id: 5, label: "Saved Posts", to: "/saved" },
+        { id: 6, label: "Logout", to: "/logout" },
     ];
 
     const menuItemsOut = [
@@ -79,7 +80,7 @@ function Header({ user, searchQuery, setSearchQuery }) {
 
                     {/* Desktop / large screens */}
                     <div className="hidden lg:flex items-center space-x-3">
-                        {user ? (
+                        {AuthState ? (
                             <>
                                 {/* Notifications dropdown */}
                                 <div className="dropdown dropdown-end relative">

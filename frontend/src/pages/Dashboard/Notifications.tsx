@@ -6,17 +6,20 @@ interface Notification {
     time: string;
     read: boolean;
 }
-
+interface AuthState {
+    isLoggedIn: boolean
+}
 interface User {
     username: string;
     email?: string;
 }
 
 interface NotificationsPageProps {
-    user?: User | null;
+    User?: User | null;
+    AuthState: AuthState | false;
 }
 
-const NotificationsPage: React.FC<NotificationsPageProps> = ({ user }) => {
+const NotificationsPage: React.FC<NotificationsPageProps> = ({ User, AuthState }) => {
     const defaultNotifications: Notification[] = [
         { id: 1, message: "New comment on your post", time: "5 minutes ago", read: false },
         { id: 2, message: "Your password was changed successfully", time: "1 hour ago", read: false },
@@ -27,12 +30,12 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ user }) => {
     const [notifications, setNotifications] = useState<Notification[]>([]);
 
     useEffect(() => {
-        if (user) {
+        if (User) {
             setNotifications(defaultNotifications);
         } else {
             setNotifications([]);
         }
-    }, [user]);
+    }, [User]);
 
     const markAsRead = (id: number) => {
         setNotifications((prev) =>
@@ -44,7 +47,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ user }) => {
         setNotifications((prev) => prev.filter((n) => n.id !== id));
     };
 
-    if (!user) {
+    if (!AuthState) {
         return (
             <div className="min-h-screen flex items-center justify-center text-gray-500 dark:text-gray-300">
                 Please log in to view your notifications.

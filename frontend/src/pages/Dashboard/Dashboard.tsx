@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     LineChart,
     Line,
@@ -19,12 +20,16 @@ interface User {
     joined?: string;
     avatar?: string;
 }
-
+interface AuthState {
+    isLoggedIn: boolean;
+}
 interface DashboardProps {
-    User?: User | null;
+    User: User;
+    AuthState: AuthState;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ User }) => {
+const Dashboard: React.FC<DashboardProps> = ({ User, AuthState }) => {
+    const navigate = useNavigate();
     const [darkMode, setDarkMode] = useState<boolean>(
         () => localStorage.getItem("theme") === "dark"
     );
@@ -39,9 +44,7 @@ const Dashboard: React.FC<DashboardProps> = ({ User }) => {
             localStorage.setItem("theme", "light");
         }
     }, [darkMode]);
-
-    // --- Guest view ---
-    if (!User) {
+    if (!AuthState) {
         return (
             <div className="flex flex-col items-center justify-center h-screen bg-base-200 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300">
                 <h1 className="text-3xl font-bold mb-4">Access Restricted</h1>
@@ -198,6 +201,7 @@ const Dashboard: React.FC<DashboardProps> = ({ User }) => {
                         Edit Profile
                     </button>
                     <button
+                        onClick={() => navigate("/myposts/")}
                         className="px-5 py-2 rounded-md text-white font-semibold shadow-none border-none hover:opacity-90 transition-all duration-200"
                         style={{ backgroundColor: "#d44bb7" }}
                     >
