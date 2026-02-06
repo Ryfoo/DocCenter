@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getPosts } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import {
     LineChart,
@@ -61,6 +62,22 @@ const Dashboard: React.FC<DashboardProps> = ({ User, AuthState }) => {
         );
     }
 
+    const [posts, setPosts] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const res = await getPosts();
+                const all = res.data;
+                const mine = all.filter((p: any) => p.author?.username === User.username);
+                setPosts(mine);
+            } catch (err) {
+                // ignore
+            }
+        };
+        if (User && User.username) fetchPosts();
+    }, [User]);
+
     // --- Data ---
     const interactionData = [
         { month: "Jan", interactions: 120 },
@@ -106,7 +123,7 @@ const Dashboard: React.FC<DashboardProps> = ({ User, AuthState }) => {
                     {[
                         {
                             label: "Articles Published",
-                            value: "12",
+                            value: String(posts.length || 0),
                             trend: "↗︎ 4 new this month",
                             color: "#2f43c8",
                         },

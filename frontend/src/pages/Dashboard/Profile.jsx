@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import posts from "../../data/posts";
+import { getProfiles, getPosts } from "../../services/api";
 
 function Profile({ user, AuthState }) {
     const navigate = useNavigate();
+    const [profile, setProfile] = useState(null);
+    const [topPublications, setTopPublications] = useState([]);
+
+    useEffect(() => {
+        const fetch = async () => {
+            if (!user || !user.id) return;
+            try {
+                const pRes = await getProfiles();
+                const profiles = pRes.data;
+                const me = profiles.find((p) => p.user && p.user.id === user.id);
+                if (me) setProfile(me);
+                else setProfile({ user: { username: user.username, email: user.email }, bio: '', avatar: null });
+
+                const postsRes = await getPosts();
+                const my = postsRes.data.filter((p) => p.author && p.author.id === user.id);
+                setTopPublications(my.slice(0, 3));
+            } catch (err) {
+                // fallback to defaults
+                setProfile({ user: { username: user.username, email: user.email }, bio: '', avatar: null });
+                setTopPublications([]);
+            }
+        };
+        fetch();
+    }, [user]);
 
     if (!AuthState) {
         return (
@@ -23,9 +47,7 @@ function Profile({ user, AuthState }) {
         );
     }
 
-    const topPublications = posts
-        .filter((post) => post.author === user.username)
-        .slice(0, 3); // top 3 posts
+    // topPublications state used
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-[#0f1017] text-gray-900 dark:text-gray-100 transition-all duration-300">
@@ -35,19 +57,19 @@ function Profile({ user, AuthState }) {
                     <div className="avatar">
                         <div className="w-24 h-24 rounded-full ring ring-[#d44bb7] ring-offset-base-100 ring-offset-2">
                             <img
-                                src={user.avatar || "https://via.placeholder.com/150"}
+                                src={(profile && (profile.avatar || user.avatar)) || "https://via.placeholder.com/150"}
                                 alt={user.username}
                             />
                         </div>
                     </div>
 
                     <div className="flex-1 text-center sm:text-left">
-                        <h2 className="text-2xl font-bold">{user.username}</h2>
+                        <h2 className="text-2xl font-bold">{profile?.user?.username || user.username}</h2>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
                             {user.role || "Member"}
                         </p>
-                        {user.bio && (
-                            <p className="mt-2 text-gray-700 dark:text-gray-300">{user.bio}</p>
+                        {(profile?.bio || user.bio) && (
+                            <p className="mt-2 text-gray-700 dark:text-gray-300">{profile?.bio || user.bio}</p>
                         )}
                     </div>
                 </div>
@@ -85,7 +107,7 @@ function Profile({ user, AuthState }) {
                                         {post.title}
                                     </h4>
                                     <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">
-                                        {post.excerpt}
+                                        {post.body?.slice(0, 150)}
                                     </p>
                                 </div>
                             ))}

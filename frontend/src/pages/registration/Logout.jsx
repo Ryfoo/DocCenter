@@ -6,12 +6,11 @@ function Logout({ setUser, setAuthState }) {
 
     useEffect(() => {
         // Clear authentication
-        setUser(null);
-        setAuthState(false);
+        if (setUser) setUser(null);
+        if (setAuthState) setAuthState(false);
 
-        // Optionally clear localStorage/sessionStorage if you store tokens
-        localStorage.removeItem("authUser");
-        localStorage.removeItem("authToken");
+        // Clear token
+        localStorage.removeItem("access");
 
         // Redirect to login page
         navigate("/login", { replace: true });

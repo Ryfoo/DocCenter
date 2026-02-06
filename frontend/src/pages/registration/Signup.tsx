@@ -1,9 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ThemeToggle from "../../components/ui/ThemeToggle";
+import { register } from "../../services/api";
+import { ACCESS_TOKEN } from "../../services/constants";
 
-export default function Signup() {
+type Props = {
+    setUser?: (u: any) => void,
+    setAuthState?: (b: boolean) => void,
+}
+
+export default function Signup({ setUser, setAuthState }: Props) {
+    const navigate = useNavigate();
     const [darkMode, setDarkMode] = useState(false);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     return (
         <div className={`${darkMode ? "dark" : ""}`}>
@@ -25,10 +37,27 @@ export default function Signup() {
                             Create an account
                         </h2>
 
-                        <form className="space-y-4">
+                        <form className="space-y-4" onSubmit={async (e) => {
+                            e.preventDefault();
+                            setError("");
+                            try {
+                                const res = await register(name, email, password);
+                                const token = res.data.token;
+                                const user = res.data.user;
+                                localStorage.setItem(ACCESS_TOKEN, token);
+                                if (setUser) setUser(user);
+                                if (setAuthState) setAuthState(true);
+                                navigate('/dashboard', { replace: true });
+                            } catch (err: any) {
+                                const msg = err?.response?.data?.error || err?.response?.data?.detail || 'Registration failed';
+                                setError(msg);
+                            }
+                        }}>
                             <div>
                                 <label className="block text-gray-600 dark:text-gray-300">Name</label>
                                 <input
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                     type="text"
                                     className="input input-bordered w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#2f43c8]"
                                 />
@@ -37,6 +66,8 @@ export default function Signup() {
                             <div>
                                 <label className="block text-gray-600 dark:text-gray-300">Email</label>
                                 <input
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     type="email"
                                     className="input input-bordered w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#2f43c8]"
                                 />
@@ -45,10 +76,14 @@ export default function Signup() {
                             <div>
                                 <label className="block text-gray-600 dark:text-gray-300">Password</label>
                                 <input
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     type="password"
                                     className="input input-bordered w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#d44bb7]"
                                 />
                             </div>
+
+                            {error && <div className="text-red-600 text-sm">{error}</div>}
 
                             <button
                                 type="submit"

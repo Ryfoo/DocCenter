@@ -32,21 +32,8 @@ function App() {
   const hiddenRoutes = ["/login", "/signup", "/PasswordReset"];
   const hidden = hiddenRoutes.includes(location.pathname);
 
-  const [user, setUser] = useState({
-    id: Date.now(),
-    username: "TestUser",
-    email: "testuser2025@test.com",
-    avatar: "../public/assets/profile1.jpg",
-    bio: "I am a Doctor with 20 years of experience, sharing my expertise with interested people",
-    savedPosts: [],
-    createdPosts: [],
-    coAuthoredPosts: [],
-    preferences: {
-      darkMode: true,
-      notifications: true,
-    },
-  });
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 transition-colors duration-300 overflow:none">
       {!hidden && <Header user={user} AuthState={isLoggedIn} />}
@@ -63,7 +50,7 @@ function App() {
           {/* Auth pages */}
           <Route path="/login" element={<Login setUser={setUser} setAuthState={setIsLoggedIn} />} />
           <Route path="/logout" element={<Logout setUser={setUser} setAuthState={setIsLoggedIn} />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup" element={<Signup setUser={setUser} setAuthState={setIsLoggedIn} />} />
           <Route path="/passwordReset" element={<PasswordResetRequest />} />
 
           {/* Protected routes */}

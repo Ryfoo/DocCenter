@@ -1,11 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getProfile, getProfiles } from "../../services/api";
 
-export default function Account() {
-    const [username, setUsername] = useState("test user");
-    const [bio, setBio] = useState("test bio");
+type Props = {
+    User?: any,
+}
+
+export default function Account({ User }: Props) {
+    const [username, setUsername] = useState(User?.username || "");
+    const [bio, setBio] = useState("");
+
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                if (User && User.id) {
+                    const res = await getProfiles();
+                    // attempt to find matching profile by user id
+                    const profiles = res.data;
+                    const me = profiles.find((p: any) => p.user?.id === User.id);
+                    if (me) setBio(me.bio || "");
+                }
+            } catch (err) {
+                // ignore
+            }
+        };
+        fetch();
+    }, [User]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        // For now, this updates client-side only; backend profile update will work once wired.
         console.log("Account updated:", { username, bio });
     };
 

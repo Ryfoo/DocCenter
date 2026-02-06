@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getNotifications, markNotificationRead, deleteNotification } from "../../services/api";
 
 interface Notification {
     id: number;
@@ -20,31 +21,39 @@ interface NotificationsPageProps {
 }
 
 const NotificationsPage: React.FC<NotificationsPageProps> = ({ User, AuthState }) => {
-    const defaultNotifications: Notification[] = [
-        { id: 1, message: "New comment on your post", time: "5 minutes ago", read: false },
-        { id: 2, message: "Your password was changed successfully", time: "1 hour ago", read: false },
-        { id: 3, message: "New follower: John Doe", time: "3 hours ago", read: false },
-        { id: 4, message: "Your post has been liked by Jane", time: "6 hours ago", read: false },
-    ];
-
     const [notifications, setNotifications] = useState<Notification[]>([]);
 
     useEffect(() => {
-        if (User) {
-            setNotifications(defaultNotifications);
-        } else {
-            setNotifications([]);
-        }
+        const fetch = async () => {
+            if (!User) return setNotifications([]);
+            try {
+                const res = await getNotifications();
+                const data = res.data;
+                const mapped = data.map((n: any) => ({ id: n.id, message: `${n.actor?.username || ''} ${n.verb} ${n.target_type || ''}`, time: new Date(n.timestamp).toLocaleString(), read: !n.unread }));
+                setNotifications(mapped);
+            } catch (err) {
+                setNotifications([]);
+            }
+        };
+        fetch();
     }, [User]);
 
-    const markAsRead = (id: number) => {
-        setNotifications((prev) =>
-            prev.map((n) => (n.id === id ? { ...n, read: true } : n))
-        );
+    const markAsRead = async (id: number) => {
+        try {
+            await markNotificationRead(id);
+            setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+        } catch (err) {
+            // ignore
+        }
     };
 
-    const deleteNotification = (id: number) => {
-        setNotifications((prev) => prev.filter((n) => n.id !== id));
+    const removeNotification = async (id: number) => {
+        try {
+            await deleteNotification(id);
+            setNotifications((prev) => prev.filter((n) => n.id !== id));
+        } catch (err) {
+            // ignore
+        }
     };
 
     if (!AuthState) {
@@ -96,7 +105,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ User, AuthState }
                                     <button
                                         className="btn btn-xs text-white shadow-none border-none"
                                         style={{ backgroundColor: "#d44bb7" }}
-                                        onClick={() => deleteNotification(notif.id)}
+                                        onClick={() => removeNotification(notif.id)}
                                     >
                                         Delete
                                     </button>
