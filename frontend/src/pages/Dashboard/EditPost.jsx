@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import posts from "../../data/posts";
+import { getPost, updatePost } from "../../services/api";
 
 function EditPost({ user, AuthState }) {
     const { id } = useParams(); // get post id from URL
     const navigate = useNavigate();
 
-    const post = posts.find((p) => p.id === parseInt(id));
-
+    const [post, setPost] = useState(null);
     const [title, setTitle] = useState("");
     const [excerpt, setExcerpt] = useState("");
     const [banner, setBanner] = useState(null);
@@ -19,15 +18,23 @@ function EditPost({ user, AuthState }) {
     const [coAuthorInput, setCoAuthorInput] = useState("");
 
     useEffect(() => {
-        if (post) {
-            setTitle(post.title);
-            setExcerpt(post.excerpt);
-            setBannerPreview(post.banner);
-            setPrivacy(post.privacy || "public");
-            setTags(post.tags || []);
-            setCoAuthors(post.coAuthors || []);
-        }
-    }, [post]);
+        const fetch = async () => {
+            try {
+                const res = await getPost(id);
+                setPost(res.data);
+                const p = res.data;
+                setTitle(p.title || "");
+                setExcerpt(p.body || p.excerpt || "");
+                setBannerPreview(p.media || p.banner || null);
+                setPrivacy(p.privacy || "public");
+                setTags(p.tags || []);
+                setCoAuthors(p.coAuthors || []);
+            } catch (err) {
+                setPost(null);
+            }
+        };
+        fetch();
+    }, [id]);
 
     if (!AuthState) {
         return (
@@ -85,7 +92,7 @@ function EditPost({ user, AuthState }) {
     };
 
     // Submit edits
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!title.trim() || !excerpt.trim()) {
@@ -93,15 +100,13 @@ function EditPost({ user, AuthState }) {
             return;
         }
 
-        // Update the post in the posts array
-        post.title = title;
-        post.excerpt = excerpt;
-        post.banner = bannerPreview;
-        post.privacy = privacy;
-        post.tags = tags;
-        post.coAuthors = coAuthors;
-
-        navigate(`/post/${post.id}`);
+        try {
+            const payload = { title, body: excerpt, is_published: true };
+            await updatePost(id, payload);
+            navigate(`/post/${id}`);
+        } catch (err) {
+            alert("Update failed");
+        }
     };
 
     return (

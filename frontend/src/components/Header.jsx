@@ -2,18 +2,46 @@ import { Link, NavLink } from "react-router-dom";
 import ThemeToggle from './ui/ThemeToggle';
 import SearchBar from "./ui/SearchBar";
 import RegisterButtons from "./ui/RegisterButtons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getNotifications } from "../services/api";
 
 function Header({ user, searchQuery, setSearchQuery, AuthState }) {
     const [searchOpen, setSearchOpen] = useState(false);
     const [notifOpen, setNotifOpen] = useState(false);
+    const [notificationsList, setNotificationsList] = useState([]);
+    const [notifLoading, setNotifLoading] = useState(false);
+    const [notifError, setNotifError] = useState(null);
 
-    const notificationsList = [
-        { id: 1, message: "New comment on your post", time: "5 minutes ago" },
-        { id: 2, message: "Your password was changed successfully", time: "1 hour ago" },
-        { id: 3, message: "New follower: John Doe", time: "3 hours ago" },
-        { id: 4, message: "Your post has been liked by Jane", time: "6 hours ago" },
-    ];
+    // Fetch notifications when user logs in, and also refetch when dropdown opens
+    const fetchNotifs = async (opts = {}) => {
+        if (!user) return;
+        const { signalCancel } = opts;
+        setNotifLoading(true);
+        setNotifError(null);
+        try {
+            const res = await getNotifications();
+            if (!signalCancel) setNotificationsList(res.data || []);
+        } catch (err) {
+            if (!signalCancel) setNotifError('Failed to load notifications');
+        } finally {
+            if (!signalCancel) setNotifLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        let cancelled = false;
+        if (!user) {
+            setNotificationsList([]);
+            return;
+        }
+        fetchNotifs({ signalCancel: cancelled });
+        return () => { cancelled = true };
+    }, [user]);
+
+    useEffect(() => {
+        if (!notifOpen) return;
+        fetchNotifs();
+    }, [notifOpen]);
 
     const menuItems = [
         { id: 1, label: "profile", to: "/profile/" },
@@ -102,22 +130,29 @@ function Header({ user, searchQuery, setSearchQuery, AuthState }) {
                                                     d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                                                 />
                                             </svg>
-                                            <span className="badge badge-xs badge-primary indicator-item"></span>
+                                            {notificationsList && notificationsList.length > 0 && (
+                                                <span className="badge badge-xs badge-primary indicator-item"></span>
+                                            )}
                                         </div>
                                     </button>
 
                                     {notifOpen && (
                                         <ul className="dropdown-content menu p-2 shadow-lg mt-2 w-80 bg-base-200 dark:bg-gray-700 rounded-box absolute right-0 z-50">
+                                            {notifLoading && <li className="p-2 text-sm">Loading...</li>}
+                                            {notifError && <li className="p-2 text-sm text-red-500">{notifError}</li>}
+                                            {!notifLoading && !notificationsList.length && (
+                                                <li className="p-2 text-sm text-gray-600">No notifications</li>
+                                            )}
                                             {notificationsList.map((notif) => (
                                                 <li
                                                     key={notif.id}
                                                     className="mb-2 p-2 bg-gray-100 dark:bg-gray-600 rounded-md"
                                                 >
                                                     <span className="text-gray-800 dark:text-gray-100 text-sm">
-                                                        {notif.message}
+                                                        {notif.actor && notif.actor.username ? `${notif.actor.username} ` : ''}{notif.verb}
                                                     </span>
                                                     <span className="text-gray-500 dark:text-gray-300 text-xs block">
-                                                        {notif.time}
+                                                        {new Date(notif.timestamp).toLocaleString()}
                                                     </span>
                                                 </li>
                                             ))}

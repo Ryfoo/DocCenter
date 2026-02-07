@@ -1,5 +1,5 @@
-import React from "react";
-import posts from "../../data/posts";
+import React, { useEffect, useState } from "react";
+import { getPosts } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
 function SavedPosts({ user, AuthState }) {
@@ -13,7 +13,21 @@ function SavedPosts({ user, AuthState }) {
         );
     }
 
-    const savedPosts = posts.filter((post) => user.savedPosts?.includes(post.id));
+    const [savedPosts, setSavedPosts] = useState([]);
+
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const res = await getPosts();
+                const all = res.data || [];
+                const mine = all.filter((post) => post.saved_by && user && post.saved_by.includes && post.saved_by.includes(user.id));
+                setSavedPosts(mine);
+            } catch (err) {
+                setSavedPosts([]);
+            }
+        };
+        if (user && user.id) fetch();
+    }, [user]);
 
     if (!savedPosts.length) {
         return (

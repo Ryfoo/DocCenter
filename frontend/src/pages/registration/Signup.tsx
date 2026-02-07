@@ -15,6 +15,7 @@ export default function Signup({ setUser, setAuthState }: Props) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
 
     return (
@@ -40,6 +41,16 @@ export default function Signup({ setUser, setAuthState }: Props) {
                         <form className="space-y-4" onSubmit={async (e) => {
                             e.preventDefault();
                             setError("");
+                            // client-side validation
+                            const isValidEmail = (em: string) => /\S+@\S+\.\S+/.test(em);
+                            if (!isValidEmail(email)) {
+                                setError('Please enter a valid email address');
+                                return;
+                            }
+                            if (password !== confirmPassword) {
+                                setError('Passwords do not match');
+                                return;
+                            }
                             try {
                                 const res = await register(name, email, password);
                                 const token = res.data.token;
@@ -47,7 +58,7 @@ export default function Signup({ setUser, setAuthState }: Props) {
                                 localStorage.setItem(ACCESS_TOKEN, token);
                                 if (setUser) setUser(user);
                                 if (setAuthState) setAuthState(true);
-                                navigate('/dashboard', { replace: true });
+                                navigate('/', { replace: true });
                             } catch (err: any) {
                                 const msg = err?.response?.data?.error || err?.response?.data?.detail || 'Registration failed';
                                 setError(msg);
@@ -78,6 +89,16 @@ export default function Signup({ setUser, setAuthState }: Props) {
                                 <input
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    type="password"
+                                    className="input input-bordered w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#d44bb7]"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-gray-600 dark:text-gray-300">Confirm Password</label>
+                                <input
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
                                     type="password"
                                     className="input input-bordered w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#d44bb7]"
                                 />

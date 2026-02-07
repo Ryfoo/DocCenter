@@ -42,5 +42,8 @@ export const getProfile = (id) => api.get(`profiles/${id}/`)
 export const getNotifications = () => api.get('notifications/')
 export const markNotificationRead = (id) => api.post(`notifications/${id}/mark_read/`)
 export const deleteNotification = (id) => api.delete(`notifications/${id}/`)
+// User stats
+export const getUserStats = () => api.get('users/me/stats/')
+export const getCurrentUser = () => api.get('users/me/')
 
 export default api

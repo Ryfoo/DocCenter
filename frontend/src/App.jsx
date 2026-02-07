@@ -1,6 +1,6 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -13,7 +13,7 @@ import Signup from "./pages/registration/Signup";
 import PasswordResetRequest from "./pages/registration/PasswordResetRequest";
 import ContactPage from "./pages/Contact";
 import NotificationsPage from "./pages/Dashboard/Notifications";
-import posts from "./data/posts";
+import { getPosts, getCurrentUser } from "./services/api";
 import PostDetails from "./pages/PostDetails";
 import Privacy from "./pages/settings/Privacy";
 import Account from "./pages/settings/Account";
@@ -28,12 +28,56 @@ import MyPosts from "./pages/Dashboard/MyPosts";
 import Avatar from "../public/assets/profile1.jpg"
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const hiddenRoutes = ["/login", "/signup", "/PasswordReset"];
   const hidden = hiddenRoutes.includes(location.pathname);
 
+  useEffect(() => {
+    const token = localStorage.getItem("access");
+    if (!token && location.pathname === "/") {
+      navigate("/signup", { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const init = async () => {
+      const token = localStorage.getItem("access");
+      if (token) {
+        try {
+          const res = await getCurrentUser();
+          const u = res.data.user || null;
+          const profile = res.data.profile || null;
+          // build user object safely
+          const userObj = u ? { ...u } : null;
+          if (userObj && profile) {
+            if (profile.user) Object.assign(userObj, profile.user);
+            if (profile.avatar) userObj.avatar = profile.avatar;
+            if (profile.bio) userObj.bio = profile.bio;
+          }
+          setUser(userObj);
+          setIsLoggedIn(!!userObj);
+        } catch (err) {
+          // token invalid or request failed -> clear token and auth
+          localStorage.removeItem("access");
+          setUser(null);
+          setIsLoggedIn(false);
+        }
+      }
+
+      try {
+        const pRes = await getPosts();
+        setPosts(pRes.data || []);
+      } catch (err) {
+        setPosts([]);
+      }
+    };
+    init();
+  }, []);
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 transition-colors duration-300 overflow:none">
       {!hidden && <Header user={user} AuthState={isLoggedIn} />}

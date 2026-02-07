@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPosts } from "../../services/api";
+import { getPosts, getUserStats } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import {
     LineChart,
@@ -78,21 +78,59 @@ const Dashboard: React.FC<DashboardProps> = ({ User, AuthState }) => {
         if (User && User.username) fetchPosts();
     }, [User]);
 
-    // --- Data ---
-    const interactionData = [
-        { month: "Jan", interactions: 120 },
-        { month: "Feb", interactions: 190 },
-        { month: "Mar", interactions: 160 },
-        { month: "Apr", interactions: 220 },
-        { month: "May", interactions: 200 },
-    ];
 
-    const reachData = [
-        { name: "Posts", reach: 80 },
-        { name: "Comments", reach: 120 },
-        { name: "Shares", reach: 60 },
-        { name: "Followers", reach: 320 },
-    ];
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const res = await getUserStats();
+                const s = res.data;
+                setStats(s);
+                // distribute interactions over 5 months evenly for chart
+                const perMonth = Math.round((s.interactions_count || 0) / 5);
+                setInteractionData([
+                    { month: "Jan", interactions: perMonth },
+                    { month: "Feb", interactions: perMonth },
+                    { month: "Mar", interactions: perMonth },
+                    { month: "Apr", interactions: perMonth },
+                    { month: "May", interactions: perMonth },
+                ]);
+                setReachData([
+                    { name: "Posts", reach: s.posts_count || 0 },
+                    { name: "Comments", reach: s.comments_count || 0 },
+                    { name: "Saves", reach: s.saves_count || 0 },
+                    { name: "Followers", reach: s.reach_count || 0 },
+                ]);
+            } catch (err) {
+                // ignore
+            }
+        };
+        if (User && User.username) fetchStats();
+    }, [User]);
+
+    // --- Data (fetched) ---
+    const [stats, setStats] = useState<any>({
+        posts_count: 0,
+        likes_count: 0,
+        comments_count: 0,
+        saves_count: 0,
+        interactions_count: 0,
+        reach_count: 0,
+    });
+
+    const [interactionData, setInteractionData] = useState<any[]>([
+        { month: "Jan", interactions: 0 },
+        { month: "Feb", interactions: 0 },
+        { month: "Mar", interactions: 0 },
+        { month: "Apr", interactions: 0 },
+        { month: "May", interactions: 0 },
+    ]);
+
+    const [reachData, setReachData] = useState<any[]>([
+        { name: "Posts", reach: 0 },
+        { name: "Comments", reach: 0 },
+        { name: "Saves", reach: 0 },
+        { name: "Followers", reach: 0 },
+    ]);
 
     // --- UI ---
     return (
@@ -123,19 +161,19 @@ const Dashboard: React.FC<DashboardProps> = ({ User, AuthState }) => {
                     {[
                         {
                             label: "Articles Published",
-                            value: String(posts.length || 0),
+                            value: String(posts.length || stats.posts_count || 0),
                             trend: "↗︎ 4 new this month",
                             color: "#2f43c8",
                         },
                         {
                             label: "Interactions",
-                            value: "648",
+                            value: String(stats.interactions_count || 0),
                             trend: "↗︎ 8% from last week",
                             color: "#d44bb7",
                         },
                         {
                             label: "Account Reach",
-                            value: "2.4K",
+                            value: String(stats.reach_count || 0),
                             trend: "↘︎ 3% this month",
                             color: "#2f43c8",
                         },

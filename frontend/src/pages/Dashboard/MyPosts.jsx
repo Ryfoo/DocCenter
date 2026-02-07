@@ -1,5 +1,5 @@
-import React from "react";
-import posts from "../../data/posts";
+import React, { useEffect, useState } from "react";
+import { getPosts, deletePost } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
@@ -14,7 +14,21 @@ function MyPosts({ user, AuthState }) {
         );
     }
 
-    const myPosts = posts.filter((post) => post.author === user.username);
+    const [myPosts, setMyPosts] = useState([]);
+
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                const res = await getPosts();
+                const all = res.data || [];
+                const mine = all.filter((p) => p.author && p.author.username === user.username);
+                setMyPosts(mine);
+            } catch (err) {
+                setMyPosts([]);
+            }
+        };
+        if (user && user.username) fetch();
+    }, [user]);
 
     if (!myPosts.length) {
         return (
@@ -28,13 +42,14 @@ function MyPosts({ user, AuthState }) {
         navigate(`/edit/${postId}`);
     };
 
-    const handleDelete = (postId) => {
-        const index = posts.findIndex((p) => p.id === postId);
-        if (index > -1) {
-            posts.splice(index, 1);
+    const handleDelete = async (postId) => {
+        if (!confirm("Delete this post?")) return;
+        try {
+            await deletePost(postId);
+            setMyPosts((prev) => prev.filter((p) => p.id !== postId));
+        } catch (err) {
+            alert("Delete failed");
         }
-        // Trigger a re-render by navigating or using a state update
-        navigate(0); // simple way to refresh the page
     };
 
     return (

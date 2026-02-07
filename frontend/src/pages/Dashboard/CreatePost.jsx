@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import posts from "../../data/posts";
+import { createPost } from "../../services/api";
 
 function CreatePost({ user, AuthState, setUser }) {
     const navigate = useNavigate();
@@ -62,35 +62,30 @@ function CreatePost({ user, AuthState, setUser }) {
     };
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!title.trim() || !excerpt.trim() || !banner) {
-            alert("Please fill in all required fields.");
+        if (!title.trim() || !excerpt.trim()) {
+            alert("Please fill in required fields: title and content.");
             return;
         }
 
-        const newPost = {
-            id: Date.now(),
-            title,
-            excerpt,
-            banner: bannerPreview,
-            author: user.username,
-            avatar: user.avatar,
-            privacy,
-            tags,
-            coAuthors,
-        };
+        try {
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('body', excerpt);
+            formData.append('is_published', 'true');
+            if (banner) formData.append('media', banner);
+            if (tags && tags.length) formData.append('tags', tags.join(','));
+            if (coAuthors && coAuthors.length) formData.append('co_authors', coAuthors.join(','));
 
-        posts.push(newPost);
-
-        // Update user's createdPosts
-        setUser({
-            ...user,
-            createdPosts: [...(user.createdPosts || []), newPost.id],
-        });
-
-        navigate(`/post/${newPost.id}`);
+            const res = await createPost(formData);
+            const created = res.data;
+            navigate(`/post/${created.id}`);
+        } catch (err) {
+            console.error(err);
+            alert("Could not create post");
+        }
     };
 
 
