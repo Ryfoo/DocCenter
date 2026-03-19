@@ -1,8 +1,5 @@
 ## GOALS (This section is subjet to consistent modifications and later deletion.)
 
-
-Making the goals public allows instructors to easily monitor progress. Dr. Sami Abdelatif and Dr. Mahmoudi have full access to this section and are authorized to review it, providing guidance, recommendations, and instructions based on their expertise and professional judgment.
-
 **Currently Working On:**
 
 currently, I am converting all Javascript files to Typescript files (safely and slowly but steady) for type safety and scalability.
